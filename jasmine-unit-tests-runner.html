@@ -74,14 +74,14 @@
 					]
 				});
 
-				require(["spec/ResponseFactorySpec",
-						"spec/PinResponseFactorySpec",
-						"spec/ActivateDeviceServiceSpec"], function()
+				require(["spec/DeviceFactorySpec",
+                    "spec/ActivateDeviceServiceSpec",
+                    "spec/ResponseFactorySpec",
+                    "spec/SimpleSpec"], function()
 				{
 					console.log("Starting Jasmine...");
 					jasmineEnv.execute();
 				});
-
 
 				/*
 				require(["factories/ResponseFactory",

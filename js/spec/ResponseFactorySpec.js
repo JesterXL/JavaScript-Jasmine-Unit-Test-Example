@@ -17,17 +17,6 @@ define(["factories/ResponseFactory", "json2", "fakeresponses/FakeResponses"], fu
 		  factory = null;
 	  });
 
-		it("is a valid spec.", function()
-		{
-			expect(true).toBe(true);
-		});
-
-
-		it("not null", function()
-		{
-			expect(factory).not.toBe(null);
-		});
-
 
 		it("returns a valid ResponseDTO when passed null.", function()
 		{
@@ -65,34 +54,34 @@ define(["factories/ResponseFactory", "json2", "fakeresponses/FakeResponses"], fu
 			}
 		});
 
-		it("has a non null responseType on the ResponseDTO for a success.", function()
+		it("has a non null type on the ResponseDTO for a success.", function()
 		{
 			var json = JSON.parse(successString);
 			var responseDTO = factory.getResponseDTO(json);
-			expect(responseDTO.responseType).not.toBe(null);
+			expect(responseDTO.type).not.toBe(null);
 		});
 
-		it("has a non null responseType on the ResponseDTO for an error.", function()
+		it("has a non null type on the ResponseDTO for an error.", function()
 		{
 			var json = JSON.parse(errorString);
 			var responseDTO = factory.getResponseDTO(json);
-			expect(responseDTO.responseType).not.toBe(null);
+			expect(responseDTO.type).not.toBe(null);
 		});
 
-		it("has an error ResponseDTO.responseType of ResponseFactory.TYPE_ERROR", function()
+		it("has an error ResponseDTO.type of ResponseFactory.TYPE_ERROR", function()
 	   {
 		   var json = JSON.parse(errorString);
 		   var responseDTO = factory.getResponseDTO(json);
-		   expect(responseDTO.responseType).toBe(ResponseFactory.TYPE_ERROR);
-		   expect(responseDTO.responseType).not.toBe(ResponseFactory.TYPE_OK);
+		   expect(responseDTO.type).toBe(ResponseFactory.TYPE_ERROR);
+		   expect(responseDTO.type).not.toBe(ResponseFactory.TYPE_OK);
 	   });
 
-		it("has a success ResponseDTO.responseType of ResponseFactory.TYPE_OK", function()
+		it("has a success ResponseDTO.type of ResponseFactory.TYPE_OK", function()
 		{
 			var json = JSON.parse(successString);
 			var responseDTO = factory.getResponseDTO(json);
-			expect(responseDTO.responseType).toBe(ResponseFactory.TYPE_OK);
-			expect(responseDTO.responseType).not.toBe(ResponseFactory.TYPE_ERROR);
+			expect(responseDTO.type).toBe(ResponseFactory.TYPE_OK);
+			expect(responseDTO.type).not.toBe(ResponseFactory.TYPE_ERROR);
 		});
 
 		it("has a ResponseDTO that is not an error for a successful response.", function()
@@ -109,12 +98,12 @@ define(["factories/ResponseFactory", "json2", "fakeresponses/FakeResponses"], fu
 			expect(responseDTO.isError).toBe(true);
 		});
 
-		it("has an error code of 30-33 for our fixture on an error response on the ResponseDTO", function()
+		it("has an error code of 300-700 for our fixture on an error response on the ResponseDTO", function()
 		{
 			var json = JSON.parse(errorString);
 			var responseDTO = factory.getResponseDTO(json);
 			expect(responseDTO.error).not.toBe(null);
-			expect(responseDTO.error.errorCode).toBe("300-700");
+			expect(responseDTO.error.code).toBe("300-700");
 		});
 
 		it("has an error message that matches our fixture in ResponseDTO", function()
@@ -122,7 +111,7 @@ define(["factories/ResponseFactory", "json2", "fakeresponses/FakeResponses"], fu
 			var json = JSON.parse(errorString);
 			var responseDTO = factory.getResponseDTO(json);
 			expect(responseDTO.error).not.toBe(null);
-			expect(responseDTO.error.errorMessage).toBe("Could not find that device based on the PIN you entered.");
+			expect(responseDTO.error.message).toBe("Could not find that device based on the PIN you entered.");
 		});
 
 	});

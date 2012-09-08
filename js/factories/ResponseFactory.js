@@ -6,7 +6,7 @@ define(["underscore", "dtos/ResponseDTO", "dtos/ErrorDTO"], function(_, Response
 	{
 
 		TYPE_ERROR 	: "error",
-		TYPE_OK 	: "warning",
+		TYPE_OK 	: "ok",
 
 		// NOTE: This function should NEVER return null.  All services should get a valid,
 		// non-null ResponseDTO that gives helpful info on why things failed, even if null XML response.
@@ -19,13 +19,6 @@ define(["underscore", "dtos/ResponseDTO", "dtos/ErrorDTO"], function(_, Response
 				responseDTO = this.getGenericErrorResponseDTO();
 				return responseDTO;
 			}
-
-			type: 				null,
-			rawResponse:		null,
-			url: 				null,
-
-			isError:			true,
-			error:				null, // ErrorDTO
 
 			try
 			{
@@ -68,12 +61,12 @@ define(["underscore", "dtos/ResponseDTO", "dtos/ErrorDTO"], function(_, Response
 				if (json.response.type === undefined)
 					return true;
 
-				var responseType = json.response.type.toLowerCase();
-				if (responseType === this.TYPE_OK)
+				var type = json.response.type.toLowerCase();
+				if (type === this.TYPE_OK)
 				{
 					return false;
 				}
-				else if (responseType === this.TYPE_ERROR)
+				else if (type === this.TYPE_ERROR)
 				{
 					return true;
 				}
@@ -89,66 +82,29 @@ define(["underscore", "dtos/ResponseDTO", "dtos/ErrorDTO"], function(_, Response
 		// NOTE: Like getResponseDTO, this method too should always return a valid DTO so we know what went wrong.
 		getErrorDTO: function(json) // ErrorDTO
 		{
-			var errorResponse = ErrorDTO;
+			var errorResponse = new ErrorDTO();
 
 			if (json === null)
 			{
-				errorResponse.isNullResponse = true;
-				errorResponse.errorCode = null;
-				errorResponse.errorMessage = "Failed to parse response.";
-				errorResponse.serviceErrorDefinition = null;
+				errorResponse.code = null;
+				errorResponse.message = "Failed to parse response.";
 				return errorResponse;
 			}
 
 			try
 			{
-				var responseType = json.response.responseType.toLowerCase();
+				var type = json.response.type.toLowerCase();
 
-				if(responseType && (responseType === this.RESPONSE_TYPE_ERROR || responseType === this.RESPONSE_TYPE_WARNING))
+				if(type && (type === this.TYPE_ERROR))
 				{
-
-					// [jwarden 9.5.2012] NOTE: I believe body is deprecated in newer calls.
-
-					/*
-					{
-						"response":{
-						"responseType":"ERROR",
-							"returnCode":20,
-							"errors":{
-							"error":{
-								"code":"30-54",
-									"message":"Device not found via PIN."
-							}
-						}
-					}
-					}
-					*/
-
-					/*
-					for(var errorNode in json.response.body.errors.errorInfo)
-					{
-						// [jwarden 8.31.2012] TODO: snag from server error definitions.json; I know it's already in here somewhere.
-						//errorDef = ServiceErrorMap.getInstance().getServiceErrorByCode(code);
-
-						errorResponse.errorCode = errorNode.code;
-						errorResponse.errorMessage = errorNode.message;
-						errorResponse.serviceErrorDefinition = null;
-						return errorResponse;
-					}
-					*/
-
-
-
-					errorResponse.errorCode = json.response.errors.error.code;
-					errorResponse.errorMessage = json.response.errors.error.message;
-					errorResponse.serviceErrorDefinition = null;
+					errorResponse.code = json.response.errors.error.code;
+					errorResponse.message = json.response.errors.error.message;
 					return errorResponse;
 				}
 				else
 				{
 					// completely unknown response, log
 					logger.warn("ResponseFactory::getErrorDTO, unknown error response from server.");
-					errorResponse.isNullResponse = true;
 					return errorResponse;
 				}
 			}

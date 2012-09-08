@@ -8,8 +8,8 @@ define(["jquery",
 				 _,
 				 Backbone,
 				 ResponseFactory,
-				 PinResponseFactory,
-				 deviceDTO)
+				 DeviceFactory,
+				 DeviceDTO)
 {
    "use strict";
 
@@ -51,7 +51,7 @@ define(["jquery",
 				   {
 					   try
 					   {
-						   this.deviceDTO = DeviceFactory.getdeviceDTO(data);
+						   this.deviceDTO = DeviceFactory.getDeviceDTO(data);
 						   if(this.deviceDTO !== undefined)
 						   {
 							   this.sendSuccess(responseDTO);

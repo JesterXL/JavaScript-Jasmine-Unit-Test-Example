@@ -31,6 +31,11 @@ define(["backbone",
 			expect(service).not.toBe(null);
 		});
 
+		if("eventBus is legit and ready to go", function()
+		{
+			expect(eventBus).not.toBe(null);
+		})
+
 		it("doesn't throw an exception receiving a successful response.", function()
 		{
 			var callback = function()

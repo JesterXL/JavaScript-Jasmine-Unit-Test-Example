@@ -36,5 +36,11 @@ define(["factories/DeviceFactory", "json2", "fakeresponses/FakeResponses"], func
 			var DeviceDTO = factory.getDeviceDTO(json);
 			expect(DeviceDTO).toBe(null);
 		});
+
+		it("returns null for DeviceDTO if I pass it null.", function()
+		{
+			var DeviceDTO = factory.getDeviceDTO(null);
+			expect(DeviceDTO).toBe(null);
+		});
 	});
 });

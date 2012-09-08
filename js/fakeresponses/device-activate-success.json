@@ -3,12 +3,12 @@
 		"type":"OK",
 		"body":{
 			"activation":{
-				"code":"ROKU",
-				"description":"Roku Streaming Players",
-				"serialNumber":"002481C56DEF ",
-				"dateActivated":"2012-09-05 13:37:43.642 UTC",
-				"active":true
-			}
+                "code":"ROKU",
+                "description":"Roku Streaming Players",
+                "serialNumber":"002481C56DEF ",
+                "dateActivated":"2012-09-05 13:37:43.642 UTC",
+                "active":true
+            }
 		}
 	}
 }
