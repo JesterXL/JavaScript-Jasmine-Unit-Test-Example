@@ -108,7 +108,7 @@ define(["backbone",
 			eventBus.callback.testFunction = function(){
 				eventBus.callback.called = true;
 			};
-			eventBus.on("IsDeviceActiveService:ActivateDeviceService", eventBus.callback.testFunction);
+			eventBus.on("ActivateDeviceService:success", eventBus.callback.testFunction);
 			// [jwarden 9.2.2012] TODO: Figure out why spyOn doesn't work. I can see the function getting called.
 			//spyOn(eventBus.callback, "testFunction");
 			var json = JSON.parse(successString);
