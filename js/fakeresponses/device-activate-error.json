@@ -1,0 +1,11 @@
+{
+   "response":{
+      "type":"ERROR",
+      "errors":{
+         "error":{
+            "code":"300-700",
+            "message":"Could not find that device based on the PIN you entered."
+         }
+      }
+   }
+}

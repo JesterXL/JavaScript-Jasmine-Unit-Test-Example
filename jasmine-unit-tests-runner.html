@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+		"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>Example Jasmine Unit Tests</title>
+
+	<script src="js/libs/log4javascript-1.4.2/log4javascript_uncompressed.js" type="text/javascript"></script>
+
+	<link rel="shortcut icon" type="image/png" href="js/libs/jasmine-standalone-1.2.0/lib/jasmine-1.2.0/jasmine_favicon.png">
+	<link rel="stylesheet" type="text/css" href="js/libs/jasmine-standalone-1.2.0/lib/jasmine-1.2.0/jasmine.css">
+
+
+	<script type="text/javascript" src="js/libs/jasmine-standalone-1.2.0/lib/jasmine-1.2.0/jasmine.js"></script>
+	<script type="text/javascript" src="js/libs/jasmine-standalone-1.2.0/lib/jasmine-1.2.0/jasmine-html.js"></script>
+	<script type="text/javascript" src="js/require.js" ></script>
+
+
+	<script type="text/javascript">
+
+		var logger = log4javascript.getLogger("JasmineClientUnitTests");
+		logger.setLevel(log4javascript.Level.ALL);
+		logger.addAppender(new log4javascript.BrowserConsoleAppender());
+		window.logger = logger;
+		logger.debug("debug: activate-tests-runner.html::log4javascript ready to rock the mic.");
+
+		(function() {
+			var jasmineEnv = jasmine.getEnv();
+			jasmine.VERBOSE = true;
+			jasmineEnv.updateInterval = 1000;
+
+			var htmlReporter = new jasmine.HtmlReporter();
+
+			jasmineEnv.addReporter(htmlReporter);
+
+			jasmineEnv.specFilter = function(spec) {
+				return htmlReporter.specFilter(spec);
+			};
+
+			var currentWindowOnload = window.onload;
+
+			window.onload = function() {
+				if (currentWindowOnload) {
+					currentWindowOnload();
+				}
+				loadClasses();
+			};
+
+			function loadClasses()
+			{
+				require.config({
+					baseUrl: "./js",
+					optimize: "none",
+					packages: [
+					   {
+						   name: "json2",
+						   location: "./libs/json2",
+						   main: "json2"
+                       },
+                        {
+                            name: "jquery",
+                            location: "./libs/jquery",
+                            main: "jquery"
+                        },
+                        {
+                            name: "underscore",
+                            location: "./libs/underscore",
+                            main: "underscore"
+                        }          ,
+                        {
+                            name: "backbone",
+                            location: "./libs/backbone",
+                            main: "backbone"
+                        }
+					]
+				});
+
+				require(["spec/ResponseFactorySpec",
+						"spec/PinResponseFactorySpec",
+						"spec/ActivateDeviceServiceSpec"], function()
+				{
+					console.log("Starting Jasmine...");
+					jasmineEnv.execute();
+				});
+
+
+				/*
+				require(["factories/ResponseFactory",
+						"constants/ServiceErrorCodes",
+						"dtos/ErrorDTO",
+						"dtos/ResponseDTO",
+						"services/IsDeviceActiveService"], function(ResponseFactory,
+																	ServiceErrorCodes,
+																	ErrorDTO,
+																	ResponseDTO)
+				{
+					console.log("ResponseFactory: " + ResponseFactory);
+					console.log("ServiceErrorCodes: " + ServiceErrorCodes);
+					console.log("ErrorDTO: " + ErrorDTO);
+					console.log("ResponseDTO: " + ResponseDTO);
+
+				});
+				*/
+			}
+
+
+
+
+
+		})();
+	</script>
+
+</head>
+<body>
+
+</body>
+</html>
